@@ -73,38 +73,38 @@ body {
   background: #ff66b3;
 }
 
-/* ------------------- DARK MODE ------------------- */
+/* ------------------- TRUE BLACK DARK MODE ------------------- */
 body.dark-mode {
-  background: #121212; /* true dark background */
+  background: #000000; /* true black background */
 }
 
 body.dark-mode .chat-container {
-  background: #1e1e1e;
+  background: #1a001a; /* very dark purple-black for container */
   box-shadow: 0 0 10px rgba(255, 182, 193, 0.5);
 }
 
 body.dark-mode #chat {
-  background: #1e1e1e;
+  background: #1a001a; /* container dark background */
   border: 1px solid #ff66b3;
 }
 
 body.dark-mode .user {
-  background: #ff66b3; /* pink highlight in dark */
+  background: #ff3399; /* pink user messages stand out */
   color: #ffffff;
 }
 
 body.dark-mode .bot {
-  background: #ff99cc; /* lighter pink for bot */
+  background: #ff66b3; /* lighter pink bot messages */
   color: #000000;
 }
 
 body.dark-mode #userInput {
-  background: #1e1e1e;
+  background: #1a001a;
   color: #ffffff;
   border: 1px solid #ff66b3;
 }
 
 body.dark-mode #darkToggle {
   background: #ff66b3;
-  color: #121212;
+  color: #000000;
 }
