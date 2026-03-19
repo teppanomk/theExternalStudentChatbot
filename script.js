@@ -73,3 +73,9 @@ document.getElementById("userInput").addEventListener("keypress", function(event
     sendMessage();
   }
 });
+// -------------------
+// DARK MODE TOGGLE
+// -------------------
+document.getElementById("darkToggle").addEventListener("click", () => {
+  document.body.classList.toggle("dark-mode");
+});
