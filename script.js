@@ -1,7 +1,5 @@
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSfUYEYX8MIGIYW5hTWf2hz_j0VT7TBiZlAWkB183PuT25msmPFtizLvmD9ktXgV4aMj2e8E6IACs6U/pub?gid=0&single=true&output=csv";
 
-const GEMINI_API_KEY = "AIzaSyBG1Kdmld1m-GLcKvpJyzBpn5aG6XBL16U";
-
 const LOG_API = "https://script.google.com/macros/s/AKfycbze3yVdySjDVy2MOi9SuZgzAOGe09VMx5d8RruXMemn7_IdG8B7LLDLOPDa1ApNvDmvvQ/exec";
 
 let knowledgeBase = [];
@@ -36,21 +34,6 @@ function searchSheet(question) {
   return null;
 }
 
-async function askGemini(question) {
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: question }] }]
-      })
-    }
-  );
-  const data = await response.json();
-  return data?.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't find an answer.";
-}
-
 async function logQuestion(question, found, answer) {
   try {
     await fetch(LOG_API, {
@@ -72,16 +55,16 @@ async function sendMessage() {
   input.value = "";
   input.focus();
 
+  // search Google Sheet
   let sheetAnswer = searchSheet(message);
   if (sheetAnswer) {
     addMessage(sheetAnswer, "bot");
     logQuestion(message, "Yes", sheetAnswer);
-    return;
+  } else {
+    const fallbackAnswer = "Sorry, I don't have an answer for that yet.";
+    addMessage(fallbackAnswer, "bot");
+    logQuestion(message, "No", fallbackAnswer);
   }
-
-  let aiAnswer = await askGemini(message);
-  addMessage(aiAnswer, "bot");
-  logQuestion(message, "No", aiAnswer);
 }
 
 document.getElementById("userInput").addEventListener("keypress", function(event) {
@@ -89,9 +72,4 @@ document.getElementById("userInput").addEventListener("keypress", function(event
     event.preventDefault();
     sendMessage();
   }
-});
-
-// Dark mode toggle
-document.getElementById("darkToggle").addEventListener("click", () => {
-  document.body.classList.toggle("dark-mode");
 });
