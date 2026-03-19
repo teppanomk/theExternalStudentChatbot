@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Thesis Chatbot</title>
+    <style>
+      body { font-family: Arial; margin: 20px; }
+      #chat { border: 1px solid #ccc; padding: 10px; max-width: 500px; height: 400px; overflow-y: scroll; }
+      #userInput { width: 400px; }
+    </style>
+  </head>
+  <body>
+    <h2>Thesis Chatbot</h2>
+    <div id="chat"></div>
+    <input type="text" id="userInput" placeholder="Ask a question..." />
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+      function appendMessage(sender, text) {
+        const chat = document.getElementById('chat');
+        chat.innerHTML += `<b>${sender}:</b> ${text}<br/>`;
+        chat.scrollTop = chat.scrollHeight;
+      }
+
+      function sendMessage() {
+        const input = document.getElementById('userInput');
+        const question = input.value.trim();
+        if (!question) return;
+
+        appendMessage("You", question);
+        input.value = "";
+
+        google.script.run.withSuccessHandler(answer => {
+          appendMessage("Bot", answer);
+        }).handleUserInput(question);
+      }
+    </script>
+  </body>
+</html>
