@@ -66,7 +66,7 @@ function containsBannedWord(text) {
   return bannedWords.some(word => lowerText.includes(word));
 }
 
-// Log question
+// Log question (only for allowed messages)
 async function logQuestion(question, found, answer) {
   try {
     await fetch(LOG_API, {
@@ -91,8 +91,7 @@ async function sendMessage() {
     addMessage("⚠️ Your message contains banned words and cannot be sent.", "bot");
     input.value = "";
     input.focus();
-    logQuestion(message, "Banned", "Message blocked due to banned word");
-    return;
+    return; // <--- Do NOT log banned messages
   }
 
   addMessage(message, "user");
@@ -102,11 +101,11 @@ async function sendMessage() {
   let sheetAnswer = searchSheet(message);
   if (sheetAnswer) {
     addMessage(sheetAnswer, "bot");
-    logQuestion(message, "Yes", sheetAnswer);
+    logQuestion(message, "Yes", sheetAnswer); // Only log allowed messages
   } else {
     const fallbackAnswer = "Sorry, I don't have an answer for that yet.";
     addMessage(fallbackAnswer, "bot");
-    logQuestion(message, "No", fallbackAnswer);
+    logQuestion(message, "No", fallbackAnswer); // Only log allowed messages
   }
 }
 
