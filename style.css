@@ -4,7 +4,8 @@ body {
   display: flex;
   justify-content: center;
   margin-top: 40px;
-  transition: background 0.3s;
+  transition: background 0.3s, color 0.3s;
+  color: #000000; /* default text color */
 }
 
 .chat-container {
@@ -13,7 +14,7 @@ body {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(255, 0, 128, 0.2);
-  transition: background 0.3s, box-shadow 0.3s;
+  transition: background 0.3s, box-shadow 0.3s, color 0.3s;
 }
 
 #chat {
@@ -23,7 +24,7 @@ body {
   padding: 10px;
   margin-bottom: 10px;
   background: #fff0f6;
-  transition: background 0.3s, border 0.3s;
+  transition: background 0.3s, border 0.3s, color 0.3s;
 }
 
 .message {
@@ -66,7 +67,7 @@ body {
   cursor: pointer;
   color: white;
   margin-bottom: 10px;
-  transition: background 0.3s;
+  transition: background 0.3s, color 0.3s;
 }
 
 #darkToggle:hover {
@@ -75,27 +76,30 @@ body {
 
 /* ------------------- TRUE BLACK DARK MODE ------------------- */
 body.dark-mode {
-  background: #000000; /* true black background */
+  background: #000000; /* black background */
+  color: #ffffff; /* text color for container if any */
 }
 
 body.dark-mode .chat-container {
-  background: #1a001a; /* very dark purple-black for container */
+  background: #1a001a; /* dark container */
+  color: #ffffff; /* white text inside container */
   box-shadow: 0 0 10px rgba(255, 182, 193, 0.5);
 }
 
 body.dark-mode #chat {
-  background: #1a001a; /* container dark background */
+  background: #1a001a;
   border: 1px solid #ff66b3;
+  color: #ffffff; /* default text inside chat */
 }
 
 body.dark-mode .user {
-  background: #ff3399; /* pink user messages stand out */
-  color: #ffffff;
+  background: #ff3399; /* pink user messages */
+  color: #ffffff; /* white text for readability */
 }
 
 body.dark-mode .bot {
   background: #ff66b3; /* lighter pink bot messages */
-  color: #000000;
+  color: #ffffff; /* white text for readability */
 }
 
 body.dark-mode #userInput {
