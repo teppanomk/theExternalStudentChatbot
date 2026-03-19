@@ -55,7 +55,7 @@ function queryGeminiAI(prompt) {
   return json?.candidates?.[0]?.content || "Sorry, I could not generate an answer.";
 }
 
-// Log chat directly to Google Sheet
+// Log chat to Google Sheet
 function logChat(timestamp, question, answerFound, botAnswer) {
   try {
     const ss = SpreadsheetApp.openById(CONFIG.CHATLOG_SHEET_ID);
@@ -68,7 +68,7 @@ function logChat(timestamp, question, answerFound, botAnswer) {
 
 // Main function to handle user input
 function handleUserInput(question) {
-  // Auto-refresh KB and banned words every time
+  // Refresh KB and banned words every time
   const kb = fetchCSV(CONFIG.KB_CSV_URL);
   const bannedWordsList = fetchCSV(CONFIG.BANNED_WORDS_URL).map(row => row["A (banned_words)"]);
 
