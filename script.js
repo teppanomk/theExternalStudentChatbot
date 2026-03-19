@@ -13,18 +13,27 @@ async function loadSheetData() {
   knowledgeBase = parsed.data;
 }
 
-// Load banned words sheet with header name "BannedWord"
+// Load banned words sheet dynamically
 async function loadBannedWords() {
   const response = await fetch(bannedURL);
   const csv = await response.text();
   const parsed = Papa.parse(csv, { header: true, skipEmptyLines: true });
+
+  if (parsed.data.length === 0) return;
+
+  // Find the column whose header contains "banned" (case-insensitive)
+  const header = Object.keys(parsed.data[0]);
+  const bannedColumn = header.find(h => h.toLowerCase().includes("banned"));
+
+  if (!bannedColumn) return;
+
   bannedWords = parsed.data
-    .map(row => row["BannedWord"])       // Use your header name here
-    .filter(word => word)                // remove empty values
-    .map(word => word.toLowerCase());    // convert to lowercase
+    .map(row => row[bannedColumn])
+    .filter(word => word)
+    .map(word => word.toLowerCase());
 }
 
-// Initialize both sheets
+// Initialize sheets
 loadSheetData();
 loadBannedWords();
 
@@ -51,7 +60,7 @@ function searchSheet(question) {
   return null;
 }
 
-// Check if input contains banned words
+// Check banned words
 function containsBannedWord(text) {
   const lowerText = text.toLowerCase();
   return bannedWords.some(word => lowerText.includes(word));
@@ -77,7 +86,7 @@ async function sendMessage() {
   const message = input.value.trim();
   if (!message) return;
 
-  // Check banned words first
+  // Check banned words
   if (containsBannedWord(message)) {
     addMessage("⚠️ Your message contains banned words and cannot be sent.", "bot");
     input.value = "";
