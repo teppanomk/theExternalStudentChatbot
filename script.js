@@ -1,5 +1,4 @@
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSfUYEYX8MIGIYW5hTWf2hz_j0VT7TBiZlAWkB183PuT25msmPFtizLvmD9ktXgV4aMj2e8E6IACs6U/pub?gid=0&single=true&output=csv";
-
 const LOG_API = "https://script.google.com/macros/s/AKfycbze3yVdySjDVy2MOi9SuZgzAOGe09VMx5d8RruXMemn7_IdG8B7LLDLOPDa1ApNvDmvvQ/exec";
 
 let knowledgeBase = [];
@@ -55,7 +54,6 @@ async function sendMessage() {
   input.value = "";
   input.focus();
 
-  // search Google Sheet
   let sheetAnswer = searchSheet(message);
   if (sheetAnswer) {
     addMessage(sheetAnswer, "bot");
@@ -73,6 +71,7 @@ document.getElementById("userInput").addEventListener("keypress", function(event
     sendMessage();
   }
 });
+
 // -------------------
 // DARK MODE TOGGLE
 // -------------------
