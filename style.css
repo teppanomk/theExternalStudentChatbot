@@ -112,3 +112,6 @@ body.dark-mode #darkToggle {
   background: #ff66b3;
   color: #000000;
 }
+body.dark-mode h2 {
+  color: #ffffff; /* header text becomes white in dark mode */
+}
