@@ -4,17 +4,16 @@ function doGet() {
   return HtmlService.createHtmlOutputFromFile('index');
 }
 
-// Fetch CSV and convert to JSON
+// Fetch CSV and convert to JSON array
 function fetchCSV(url) {
   const response = UrlFetchApp.fetch(url);
   const csv = Utilities.parseCsv(response.getContentText());
   const headers = csv[0];
-  const data = csv.slice(1).map(row => {
+  return csv.slice(1).map(row => {
     let obj = {};
-    headers.forEach((h, i) => obj[h] = row[i]);
+    headers.forEach((h, i) => obj[h.trim()] = row[i]);
     return obj;
   });
-  return data;
 }
 
 // Check for banned words
@@ -25,11 +24,9 @@ function containsBannedWords(input, bannedWords) {
 
 // Search KB for exact match
 function findAnswer(question, kb) {
-  question = question.toLowerCase();
+  const q = question.toLowerCase();
   for (let entry of kb) {
-    if (entry["User Question"].toLowerCase() === question) {
-      return entry["Bot Answer"];
-    }
+    if (entry["User Question"].toLowerCase() === q) return entry["Bot Answer"];
   }
   return null;
 }
@@ -61,14 +58,14 @@ function logChat(timestamp, question, answerFound, botAnswer) {
     const ss = SpreadsheetApp.openById(CONFIG.CHATLOG_SHEET_ID);
     const sheet = ss.getSheetByName(CONFIG.CHATLOG_SHEET_NAME);
     sheet.appendRow([timestamp, question, answerFound, botAnswer]);
-  } catch (e) {
+  } catch(e) {
     console.error("Failed to log chat: " + e);
   }
 }
 
 // Main function to handle user input
 function handleUserInput(question) {
-  // Refresh KB and banned words every time
+  // Auto-refresh KB and banned words every time
   const kb = fetchCSV(CONFIG.KB_CSV_URL);
   const bannedWordsList = fetchCSV(CONFIG.BANNED_WORDS_URL).map(row => row["A (banned_words)"]);
 
