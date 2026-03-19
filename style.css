@@ -4,6 +4,7 @@ body {
   display: flex;
   justify-content: center;
   margin-top: 40px;
+  transition: background 0.3s;
 }
 
 .chat-container {
@@ -12,6 +13,7 @@ body {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(255, 0, 128, 0.2);
+  transition: background 0.3s, box-shadow 0.3s;
 }
 
 #chat {
@@ -21,6 +23,7 @@ body {
   padding: 10px;
   margin-bottom: 10px;
   background: #fff0f6;
+  transition: background 0.3s, border 0.3s;
 }
 
 .message {
@@ -29,6 +32,7 @@ body {
   border-radius: 8px;
   max-width: 80%;
   word-wrap: break-word;
+  transition: background 0.3s, color 0.3s;
 }
 
 .user {
@@ -51,6 +55,7 @@ body {
   border-radius: 5px;
   background: #fff0f6;
   color: #800040;
+  transition: background 0.3s, color 0.3s, border 0.3s;
 }
 
 #darkToggle {
@@ -61,8 +66,45 @@ body {
   cursor: pointer;
   color: white;
   margin-bottom: 10px;
+  transition: background 0.3s;
 }
 
 #darkToggle:hover {
   background: #ff66b3;
+}
+
+/* DARK MODE */
+body.dark-mode {
+  background: #33001a;
+}
+
+body.dark-mode .chat-container {
+  background: #660033;
+  box-shadow: 0 0 10px rgba(255, 182, 193, 0.5);
+}
+
+body.dark-mode #chat {
+  background: #800040;
+  border: 1px solid #ff66b3;
+}
+
+body.dark-mode .user {
+  background: #cc3399;
+  color: #ffe6f2;
+}
+
+body.dark-mode .bot {
+  background: #b30059;
+  color: #ffe6f2;
+}
+
+body.dark-mode #userInput {
+  background: #660033;
+  color: #ffe6f2;
+  border: 1px solid #ff66b3;
+}
+
+body.dark-mode #darkToggle {
+  background: #ff66b3;
+  color: #33001a;
 }
